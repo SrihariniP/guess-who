@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { MAX_QUESTIONS } from '../constants';
+import { MAX_QUESTIONS } from './constants.tsx';
 
 interface GameStatusProps {
   remaining: number;
@@ -9,7 +8,7 @@ interface GameStatusProps {
 
 export const GameStatusDisplay: React.FC<GameStatusProps> = ({ remaining, status }) => {
   const percentage = (remaining / MAX_QUESTIONS) * 100;
-  
+
   return (
     <div className="bg-slate-800/50 backdrop-blur-md border border-slate-700 rounded-xl p-4 sticky top-4 z-10 shadow-lg">
       <div className="flex justify-between items-center mb-2">
@@ -19,7 +18,7 @@ export const GameStatusDisplay: React.FC<GameStatusProps> = ({ remaining, status
         </span>
       </div>
       <div className="w-full bg-slate-700 h-2 rounded-full overflow-hidden">
-        <div 
+        <div
           className={`h-full transition-all duration-500 ease-out rounded-full ${remaining <= 5 ? 'bg-red-500' : 'bg-blue-500'}`}
           style={{ width: `${percentage}%` }}
         />

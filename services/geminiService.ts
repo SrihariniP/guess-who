@@ -1,8 +1,7 @@
+import { GoogleGenAI, Chat } from "@google/genai";
+import { AIResponse } from "./types.ts";
 
-import { GoogleGenAI, Chat, Type } from "@google/genai";
-import { AIResponse } from "../types";
-
-const SYSTEM_INSTRUCTION = `You are the Game Master for 'Persona Guess: 21 Questions'. 
+const SYSTEM_INSTRUCTION = `You are the Game Master for 'Persona Guess: 21 Questions'.
 Your goal is to choose a highly famous person (dead or alive) that is known globally for their achievements in fields like science, arts, sports, politics, or entertainment.
 
 Rules:
@@ -25,14 +24,14 @@ Keep your choice varied. Ensure the person is world-famous.`;
 
 export class GuessWhoService {
   private chat: Chat | null = null;
-  private ai: GoogleGenAI;
 
-  constructor() {
-    this.ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+  private getClient() {
+    return new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
   }
 
   async startNewGame(): Promise<string> {
-    this.chat = this.ai.chats.create({
+    const ai = this.getClient();
+    this.chat = ai.chats.create({
       model: "gemini-3-flash-preview",
       config: {
         systemInstruction: SYSTEM_INSTRUCTION,

@@ -1,10 +1,9 @@
-
 import React, { useState, useEffect, useRef } from 'react';
-import { GameStatus, Message, GameState } from './types';
-import { geminiService } from './services/geminiService';
-import { MAX_QUESTIONS, ICONS } from './constants';
-import { ChatBubble } from './components/ChatBubble';
-import { GameStatusDisplay } from './components/GameStatus';
+import { GameStatus, Message, GameState } from './types.ts';
+import { geminiService } from './geminiService.ts';
+import { MAX_QUESTIONS, ICONS } from './constants.tsx';
+import { ChatBubble } from './ChatBubble.tsx';
+import { GameStatusDisplay } from './GameStatus.tsx';
 
 const App: React.FC = () => {
   const [gameState, setGameState] = useState<GameState>({
@@ -39,7 +38,7 @@ const App: React.FC = () => {
       }));
     } catch (error) {
       console.error(error);
-      alert("Failed to initialize game. Please check your API key.");
+      alert("Failed to initialize game. Please check your network or API key.");
       setGameState(prev => ({ ...prev, status: GameStatus.IDLE }));
     } finally {
       setIsLoading(false);
@@ -61,11 +60,11 @@ const App: React.FC = () => {
 
     try {
       const aiResponse = await geminiService.askQuestion(currentInput);
-      
-      const modelMsg: Message = { 
-        role: 'model', 
-        text: aiResponse.answer, 
-        type: 'answer' 
+
+      const modelMsg: Message = {
+        role: 'model',
+        text: aiResponse.answer,
+        type: 'answer'
       };
 
       let newStatus = gameState.status;
@@ -90,6 +89,7 @@ const App: React.FC = () => {
 
     } catch (error) {
       console.error(error);
+      alert("Something went wrong with the AI response. Try again.");
     } finally {
       setIsLoading(false);
     }
@@ -102,7 +102,7 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 md:p-8 bg-slate-950 text-slate-200">
       <div className="max-w-4xl w-full flex flex-col h-[90vh]">
-        
+
         {/* Header */}
         <header className="mb-6 flex items-center justify-between">
           <div className="flex items-center space-x-3">
@@ -114,7 +114,7 @@ const App: React.FC = () => {
             </h1>
           </div>
           {gameState.status !== GameStatus.IDLE && (
-            <button 
+            <button
               onClick={resetGame}
               className="p-2 text-slate-400 hover:text-white transition-colors"
               title="Reset Game"
@@ -128,10 +128,10 @@ const App: React.FC = () => {
           <div className="flex-grow flex flex-col items-center justify-center text-center space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
              <div className="relative group">
                 <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-                <img 
-                    src="https://picsum.photos/seed/guesswho/400/400" 
+                <img
+                    src="https://images.unsplash.com/photo-1544502062-f82887f0dfd2?q=80&w=400&h=400&auto=format&fit=crop"
                     className="relative w-48 h-48 md:w-64 md:h-64 rounded-full object-cover border-4 border-slate-800 shadow-2xl"
-                    alt="Mystery Persona" 
+                    alt="Mystery Persona"
                 />
              </div>
              <div className="space-y-4 px-4">
@@ -139,7 +139,7 @@ const App: React.FC = () => {
                 <p className="text-slate-400 text-lg max-w-md mx-auto font-light leading-relaxed">
                   I'm thinking of a globally famous person. You have <span className="text-blue-400 font-bold">21 questions</span> to figure out who it is.
                 </p>
-                <button 
+                <button
                   onClick={startGame}
                   className="mt-8 px-10 py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-2xl shadow-xl shadow-blue-900/20 transform transition-all hover:scale-105 active:scale-95 flex items-center space-x-3 mx-auto"
                 >
@@ -150,7 +150,7 @@ const App: React.FC = () => {
           </div>
         ) : (
           <div className="flex-grow flex flex-col bg-slate-900 rounded-3xl border border-slate-800 shadow-2xl overflow-hidden relative">
-            
+
             {/* Overlay for Win/Loss */}
             {(gameState.status === GameStatus.WON || gameState.status === GameStatus.LOST) && (
               <div className="absolute inset-0 z-50 flex items-center justify-center p-6 backdrop-blur-md bg-slate-950/60 animate-in zoom-in duration-300">
@@ -176,7 +176,7 @@ const App: React.FC = () => {
                       </p>
                     </>
                   )}
-                  <button 
+                  <button
                     onClick={resetGame}
                     className="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl transition-colors shadow-lg shadow-blue-900/30"
                   >
@@ -188,14 +188,14 @@ const App: React.FC = () => {
 
             {/* Status Header */}
             <div className="p-4 bg-slate-900/80 backdrop-blur-sm border-b border-slate-800">
-              <GameStatusDisplay 
-                remaining={gameState.questionsRemaining} 
-                status={gameState.status === GameStatus.INITIALIZING ? 'Thinking...' : 'Active'} 
+              <GameStatusDisplay
+                remaining={gameState.questionsRemaining}
+                status={gameState.status === GameStatus.INITIALIZING ? 'Thinking...' : 'Active'}
               />
             </div>
 
             {/* Chat Area */}
-            <div 
+            <div
               ref={scrollRef}
               className="flex-grow overflow-y-auto p-4 md:p-6 custom-scrollbar flex flex-col space-y-2"
             >
@@ -219,7 +219,7 @@ const App: React.FC = () => {
             <div className="p-4 md:p-6 bg-slate-900/90 border-t border-slate-800">
               <div className="flex flex-col space-y-3">
                 <div className="flex items-center space-x-2">
-                  <input 
+                  <input
                     type="text"
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
@@ -230,7 +230,7 @@ const App: React.FC = () => {
                     disabled={isLoading || gameState.status !== GameStatus.PLAYING}
                     className="flex-grow bg-slate-800 border border-slate-700 text-white p-4 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all disabled:opacity-50"
                   />
-                  <button 
+                  <button
                     onClick={() => handleInteraction('question')}
                     disabled={isLoading || !inputValue.trim() || gameState.status !== GameStatus.PLAYING}
                     className="bg-blue-600 hover:bg-blue-500 disabled:bg-slate-700 text-white p-4 rounded-2xl shadow-lg transition-all active:scale-95"
@@ -240,7 +240,7 @@ const App: React.FC = () => {
                 </div>
                 <div className="flex items-center justify-between px-1">
                   <p className="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Type your question or take a guess</p>
-                  <button 
+                  <button
                     onClick={() => handleInteraction('guess')}
                     disabled={isLoading || !inputValue.trim() || gameState.status !== GameStatus.PLAYING}
                     className="text-xs text-blue-400 hover:text-blue-300 font-bold uppercase tracking-wider transition-colors disabled:opacity-0"

@@ -1,7 +1,6 @@
-
 import React from 'react';
-import { Message } from '../types';
-import { ICONS } from '../constants';
+import { Message } from './types.ts';
+import { ICONS } from './constants.tsx';
 
 interface ChatBubbleProps {
   message: Message;
@@ -9,7 +8,7 @@ interface ChatBubbleProps {
 
 export const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
   const isModel = message.role === 'model';
-  
+
   return (
     <div className={`flex w-full mb-4 ${isModel ? 'justify-start' : 'justify-end'}`}>
       <div className={`flex max-w-[85%] ${isModel ? 'flex-row' : 'flex-row-reverse'}`}>
@@ -17,8 +16,8 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
           {isModel ? <ICONS.Brain className="w-5 h-5" /> : <ICONS.User className="w-5 h-5" />}
         </div>
         <div className={`p-3 rounded-2xl shadow-sm ${
-          isModel 
-            ? 'bg-slate-800 text-slate-100 rounded-tl-none border border-slate-700' 
+          isModel
+            ? 'bg-slate-800 text-slate-100 rounded-tl-none border border-slate-700'
             : 'bg-blue-600 text-white rounded-tr-none'
         }`}>
           <p className="text-sm md:text-base leading-relaxed whitespace-pre-wrap">
