@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { GameStatus, Message, GameState } from './types.ts';
-import { geminiService } from './geminiService.ts';
+import { geminiService } from './services/geminiService.ts';
 import { MAX_QUESTIONS, ICONS } from './constants.tsx';
-import { ChatBubble } from './ChatBubble.tsx';
-import { GameStatusDisplay } from './GameStatus.tsx';
+import { ChatBubble } from './components/ChatBubble.tsx';
+import { GameStatusDisplay } from './components/GameStatus.tsx';
 
 const App: React.FC = () => {
   const [gameState, setGameState] = useState<GameState>({

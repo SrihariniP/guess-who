@@ -1,6 +1,6 @@
 import React from 'react';
 import { Message } from './types.ts';
-import { ICONS } from './constants.tsx';
+import { ICONS } from '../constants.tsx';
 
 interface ChatBubbleProps {
   message: Message;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { MAX_QUESTIONS } from './constants.tsx';
+import { MAX_QUESTIONS } from '../constants.tsx';
 
 interface GameStatusProps {
   remaining: number;
